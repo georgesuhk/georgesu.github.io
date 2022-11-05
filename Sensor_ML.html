@@ -1,0 +1,228 @@
+<!DOCTYPE HTML>
+<!--
+	Forty by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>George Su: Sensor classification (ML)</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+
+				<!-- Header -->
+				<header class="subpage_header" style="background-image: url('../../images/Sensor_ML/sbg1.jpg')">
+					<h1>Cleaning and classification of sensor data using ML</h1>
+				</header>
+
+
+
+				<!-- Main -->
+						<main class="subpage_main">
+
+
+						<!-- One -->
+							<section id="one">
+
+								<p><strong>W</strong>ork for <a href="https://avarontechs.com/technology">Avaron Technologies Limited</a>, a company based in Hong Kong Science Park working on using Optical Fibre Bragg Grating (FBG) Sensors to monitor the health of infrastructure throughout Hong Kong. I worked on classifying data obtained by sensors installed under escalators to generate information regarding the human traffic levels throughout the day. I also worked on data cleaning and visualisation for the company. (I was also involved in the manufacturing of the sensors but thats not relevant for a coding portfolio..)
+								</p>
+								<div class="row">
+									<div class="column one">
+										<img src="images/Sensor_ML/logo.png" alt="" style="width:30%; padding-left: 3em;">
+									</div>
+								</div>
+								<br>
+
+								<table>
+									<tr>
+										<th><b>Overview</b></th>
+									</tr>
+									<tr>
+										<th>
+											<ol>
+												<li><a href="#Data cleaning">Part 1: Data Cleaning and Visualisation</a></li>
+												<li><a href="#ML">Part 2: Machine Learning Classification of steps and errors</a></li>
+												<ul>
+													<li><a href="#Scikit">Supervised ML using Scikit Learn</a></li>
+													<li><a href="#Results">Results</a></li>
+
+												</ul>
+
+												</ul>
+											
+
+
+
+											</ol>
+										</th>
+									</tr>
+
+								</table>
+								
+							</section>
+						
+						<!-- Two -->
+
+							<section id="Data cleaning">
+								<section>
+											<header class="major">
+												<h2>Part 1: Data cleaning and visualisation</h2>
+											</header>
+											<p>
+												The <b>FBG sensors</b> are based off optical fibres that are doped with other chemicals making them capable of <b>changing the wavelength</b> of incident light depending on the strain it experiences. The company I worked for has installed many of these sensors underneath the comb plate (the platform at the start and end of escalators) of escalators in the mid levels district of Hong Kong. 
+
+												The sensors produce 100s of GBs of data a day. My first task was to clean the data using pandas, then to generate visualisations of the data for parameters such as <i>peak wavelength</i> and <i>peak offset</i> in wavelength using <i>Seaborn</i> and <i>Plotly</i> for presentations, as well as for the team to get a better understanding of sensor behaviour. 
+											 </p>
+
+											<div class="row">
+											<div class="column two">
+												<img src="images/Sensor_ML/Peak Offset Distribution.jpeg" alt="" style="width:90%; padding-left: 3em;">
+											</div>
+											<div class="column two">
+												<img src="images/Sensor_ML/Peak Wavelength Distribution.jpeg" alt="" style="width:100%; padding-left: 3em;">
+											</div>
+											</div>
+										
+										<p class="caption">Histograms of the peak offset and peak wavelength distribution of the sensors</p>
+
+										<div class="row">
+											<div class="column two">
+												<img src="images/Sensor_ML/sensor5.jpeg" alt="" style="width:100%; padding-left: 3em;">
+											</div>
+											<div class="column two">
+												<img src="images/Sensor_ML/sensor7.jpeg" alt="" style="width:100%; padding-left: 3em;">
+											</div>
+											</div>
+										<p class="caption">Response distribution of the 5th and 7th sensors placed on an escalator</p>
+
+
+									
+								</section>
+
+
+								<section id="ML">
+									<section>
+												<header class="major">
+													<h2>Part 2: Machine Learning Classification of steps and errors</h2>
+												</header>
+												<p>
+													The meat of the project was to identify the sensor data. The goal was to be able to build a program capable of <b>identifying when the escalator is experiencing a malfunction</b>, and <b>when a person is stepping on the escalator</b>. The malfunction information is useful for escalator companies to maintain the health of the machine and the step information helps city planners make informed choices for infrastructure.
+												 </p>
+
+												 <p>This is what some of the raw data from the sensors look like:</p>
+
+												<div class="row">
+												<div class="column one">
+													<img src="images/Sensor_ML/sensor4_raw.png" alt="" style="width:80%; padding-left: 5em;">
+												</div>
+												</div>
+												<div class="row">
+													<div class="column one">
+														<img src="images/Sensor_ML/sensor5_raw.png" alt="" style="width:80%; padding-left: 5em;">
+													</div>
+												</div>
+												<div class="row">
+													<div class="column one">
+														<img src="images/Sensor_ML/sensor6_raw.png" alt="" style="width:80%; padding-left: 5em;">
+													</div>
+												</div>
+											<p class="caption">Raw data from sensors</p>
+
+											<p>The orange line is a baseline offset I added to be able to able to identify deviations from the baseline strain. As there are certain trends we can identify from the data using observation and human intuition, and there were videos matching the real life situation to the sensor data, I decided that it was best to use a <b>supervised machine learning model</b>. To do this, I needed to first find diagnostic parameters. The table below are some of the parameters used in the classification.</p>
+
+											<div class="row">
+												<div class="column one">
+													<img src="images/Sensor_ML/classification_table.png" alt="" style="width:80%; padding-left: 5em;">
+												</div>
+											</div>
+
+											<h4 id="Scikit">Machine Learning Using Scikit Learn</h4>
+											<p>With enough data and a large set of parameters, I used the <i>Scikit Learn</i> package from python to perform a train <i>test split</i> on the data. I then tried out a few different supervised machine learning models, including <b>linear regression</b>, <b>support vector machines</b> and <b>k-nearest neighbours</b>. Ultimately I decided on using the random forest method as it gave the best success rate. The confusion matrix using Random Forest for the data from a particular escalator is as following: </p>
+							
+
+											<div class="column one">
+												<img src="images/Sensor_ML/confusion_matrix.png" alt="" style="width:80%; padding-left: 5em;">
+											</div>
+
+											<p>As can be seen a very good rate of true positive and true negative has been achieved.</p>
+
+											<h4 id="Results">Results</h4>
+											<p>The machine learning model created is able to detect when an error has occurred in the escalator (e.g. when a coin is stuck in the comb plate), and when there are steps on the escalator. A certain threshold to the strain required to be counted as a step is taken into account by the model so to not classify the tapping of umbrellas or walking sticks as steps.</p>
+
+											<div class="column one">
+												<img src="images/Sensor_ML/classified_points.png" alt="" style="width:80%; padding-left: 5em;">
+											</div>
+											<p class="caption">Points of stepping on comb plate classified using ML model for a particular sensor.</p>
+
+
+											<p>Using the model, I am able to generate plots and data like the following:</p>
+
+											<div class="column one">
+												<img src="images/Sensor_ML/Step time Distribution.jpeg" alt="" style="width:80%; padding-left: 5em;">
+											</div>
+											<p>Which shows the level of traffic on an escalator as a function of time. Combined with a cloud server and database ran by the company, the company is able to provide urban planners with real time information of traffic volumes and patterns for a particular area. </p>
+
+
+
+
+
+
+	
+	
+										
+									</section>
+							</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+								
+
+
+
+
+								<ul class="actions">
+									<li><a href="index.html" class="button back">Return to home</a></li>
+								</ul>
+
+
+					
+							</section>
+						</main>
+
+
+				
+
+				<!-- Footer -->
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

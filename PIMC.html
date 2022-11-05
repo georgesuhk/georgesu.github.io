@@ -1,0 +1,271 @@
+<!DOCTYPE HTML>
+<!--
+	Forty by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>George Su: PIMC Project</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+
+				<!-- Header -->
+				<header class="subpage_header">
+					<h1>Path Integral Monte Carlo: Simulation of Polarons</h1>
+				</header>
+
+
+
+				<!-- Main -->
+						<main class="subpage_main">
+
+
+						<!-- One -->
+							<section id="one">
+
+								<p><strong>P</strong>art of my research project during my time at the Solid State Physics group at Imperial College London. The project was to develop a Julia package capable of simulating the quantum many body system of <b>Polarons.</b> Polarons are a type of Quasi-particle, that form from the coupling of electrons (or holes) with lattice vibrations. Polarons are abundant in almost all materials and have profound effects on the properties of the material. The understanding of polarons is especially useful for the development of renewable materials.</p>
+
+								<table>
+									<tr>
+										<th><b>Overview</b></th>
+									</tr>
+									<tr>
+										<th>
+											<ol>
+												<li><a href="#overview">PIMC Method</a></li>
+												<li><a href="#estimators">Estimators</a></li>
+												<ul>
+													<li><a href="#thermalisation">Thermalisation</a></li>
+												</ul>
+												<li><a href="#sampling">Sampling algorithms</a></li>
+												<ul>
+													<li><a href="#acceptance">Acceptance rate adjustment</a></li>
+												</ul>
+												<li><a href="#optimisation">Optimisations and parallising</a></li>
+												<li><a href="#end">End product</a></li>
+												<ul>
+													<li><a href="#Toy Potentials">Testing on toy potentials</a></li>
+													<li><a href="#Frohlich">Frohlich Polarons</a></li>
+
+												</ul>
+											
+
+
+
+											</ol>
+										</th>
+									</tr>
+
+								</table>
+								
+							</section>
+						
+						<!-- Two -->
+
+							<section id="overview">
+								<section>
+											<header class="major">
+												<h2>Overview of the PIMC Method</h2>
+											</header>
+											<p>One method of obtaining dynamics of polarons is to solve the <b>Frohlich Hamiltonian</b>. This can be done by using the path integral method developed my Richard Feynman, splitting the polaron in a series of 'beads', each representing it at a point in imaginary time. By conducting the path integral across these beads, we are able to obtain properties of the polarons. This approach applied to polarons has barely been attempted in the literature.
+												We initialise the system with the beads distributed randomly in 3D space. We then apply the <i>Metropolis algorithm</i> to update the position of the beads in hopes of minimising energy. After an initial <i>burn-in time</i>, observables are sampled periodically using <i>estimators</i>. The final observable obtained is an average of the array of observable samples.
+											 </p>
+										<a href="" class="image">
+											<img src="images/flowchart_pimc.png" alt="" data-position="center center" />
+										</a>
+										<p class="caption">The core Metropolis algorithm</p>
+
+
+									
+								</section>
+							</section>
+
+							<section id="estimators">
+									<header class="major">
+										<h2>Technical challenges</h2>
+									</header>
+									<h3>Estimators</h3>
+									<p>The use of suitable estimators to obtain desired observables, and to provide accurate and descriptive errors on the observable values is crucial. The main observable of interest is the binding energy of the polaron. The initial estimator used was the <b>thermodynamic estimator</b>. However, the thermodynamic estimator suffered from large <b>kinetic fluctuations</b> when the system is at high temperatures. To address this issue, the <b>virial estimator</b> is used which averages out the kinetic energy fluctuations. However the virial estimator required the spatial derivative of the potential, and required additional optimisation. (Mentioned later) </p>
+
+									<a href="" class="image subpage">
+										<img src="images/PIMC/estimators.png" alt="" data-position="center center" />
+									</a>
+									<p class="caption">The stability of Virial estimator with higher temp vs. thermodynamic estimator</p>
+
+									<h4 id="thermalisation">Burn-in time and thermalisation</h4>
+									<p>Another important factor regarding the accuracy of observables is the burn-in time of the system. Or the time it takes for the system to thermalise before meaningful observations could be made. This was taken into account by only obtaining observables after 50% of total monte-carlo steps have been completed.</p>
+
+
+
+							</section>
+
+							<section id="sampling">
+								<h3>Sampling algorithms</h3>
+								<p>The simplest sampling algorithm is a single bead sampler, which visits individual beads at random and attempts to update their positions according to the Metropolis algorithm. However this method is inefficient at exploring phase space. Hence much more advanced sampling algorithms have been developed to increase the speed and efficiency. The most sophisticated of which is the <b>Bisection algorithm</b>, which takes advantage of a Levy bridge and is able to explore areas of greater errors before investigating areas that are most likely to have already been optimised.</p>
+
+								<div class="row">
+									<div class="column three">
+										<img src="images/PIMC/Single.gif" alt="" style="width:130%">
+									</div>
+									<div class="column three">
+									  <img src="images/PIMC/Displace.gif" alt="" style="width:130%">
+									</div>
+									<div class="column three">
+									  <img src="images/PIMC/Bisect.gif" alt="" style="width:130%">
+									</div>
+								  </div>
+								  <p class="caption">From left to right: <span style="color: green">Single</span>, <span style="color: goldenrod">Displace</span> and <span style="color: red">Bisect</span> Sampling methods. (Same frame rate)</p>
+								
+								  <h4 id="acceptance">Acceptance rate adjustment</h4>
+								  <p>Furthermore, for the efficient exploration of phase space, we want to control the <i>acceptance rate</i> of <i>attempted moves.</i> The acceptance rate should be around 50% to make sure that we are not attempting overly large moves and also not trapped in a local minimum. To do this, the shift width of each proposed move is coded to be auto adjusting, so that it decreases if moves are rejected too often and vice versa.</p>
+							</section>
+
+							
+							<section id="optimisation">
+
+
+								<h3>Optimisation for efficiency and parallelising</h3>
+
+
+								<p>The Frohlich potential affecting each bead required an inner integral which depends on the position of every other bead, this is extreme computationally intensive to have within the <b>inner loop</b> of a monte carlo simulation. Hence, graph theory concepts of <b>adjacency matrices</b> and <b>adjacency lists</b> were deployed so that only a sub group of beads needed to be updated for each step. <b>Caching</b> of variables was also used intensively to prevent inner loop calculations. 
+								
+								Furthermore, in later stages the package was optimised for <b>parallel computing</b>, as it needed to be ran on <a href="https://www.archer2.ac.uk/"><b>Archer2</b></a>, UK's national supercomputer. This required the restructuring of code to avoid thread locking, and to take better advantage of multi-threading. 
+								</p>
+
+								<a href="https://www.archer2.ac.uk/" class="image">
+									<img src="images/PIMC/archer2.png" alt="" data-position="center center" />
+								</a>
+
+
+					
+							</section>
+
+						
+							<section id="end">
+								<header class="major">
+									<h2>End Product</h2>
+								</header>
+
+
+
+								<p>The final package is capable of simulating a system of Polarons, and obtaining its wavefunction, correlation function and binding energy. The results are comparable to results obtained by variational theory. Package is currently available on <a href="https://github.com/Frost-group/PolaronQMC.jl">Github</a>.</p>
+
+								<h3 id="Toy Potentials">Testing on Toy Potentials</h3>
+								<br>
+
+								<span style="text-align: center;"><h4>Harmonic Oscillators</h4></span>
+						
+								<div class="row">
+									<div class="column two">
+										<img src="images/PIMC/wideSHM.png" alt="" style="width:80%">
+									</div>
+									<div class="column two">
+									  <img src="images/PIMC/thinSHM.png" alt="" style="width:80%">
+									</div>
+								  </div>
+								  <p class="caption">Wavefunctions of Harmonic Oscillators with varying width (Wide to Thin)</p>
+
+								  <div class="row">
+									<div class="column two">
+										<img src="images/PIMC/wideSHM_vis.gif" alt="" style="width:80%">
+									</div>
+									<div class="column two">
+									  <img src="images/PIMC/thinSHM_vis.gif" alt="" style="width:80%">
+									</div>
+								  </div>
+								  <p class="caption">Visualisation of the optimisation of bead position for the two harmonic oscillator potentials.</p>
+								  <br>
+
+								  <span style="text-align: center;"><h4>Mexican Hat Potential</h4></span>
+								  <div class="row">
+									<div class="column two">
+										<img src="images/PIMC/mexhat_wf.png" alt="" style="width:80%">
+									</div>
+									<div class="column two">
+									  <img src="images/PIMC/mexhat.gif" alt="" style="width:80%">
+									</div>
+								  </div>
+								  <p class="caption">Visualisation of the optimisation of bead position for a mexican hat potential.</p>
+
+								  <br>
+
+								  <h3 id="Frohlich">Result on Frohlich Potential Hamiltonian</h3>
+								  <div class="row">
+									<div class="column two">
+										<img src="images/PIMC/polaron_wf.png" alt="" style="width:80%">
+									</div>
+									<div class="column two">
+									  <img src="images/PIMC/weak coupling polaron vis.gif" alt="" style="width:80%">
+									</div>
+								  </div>
+								  <p class="caption">Ground state wavefunction of a Frohlich Polaron and its optimisation visualisation.</p>
+
+								  <br>
+								  <div class="row">
+									<div class="column one">
+										<img src="images/PIMC/polaron_energy_with_devi.png" alt="" style="width:80%">
+									</div>
+								  </div>
+								  <p class="caption">The energy of the Polaron for different electron-phonon coupling coefficients. (PIMC results compared with variational theory results.)</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+								
+
+
+
+
+								<ul class="actions">
+									<li><a href="index.html" class="button back">Return to home</a></li>
+								</ul>
+
+
+					
+							</section>
+						</main>
+
+
+				
+
+				<!-- Footer -->
+					<footer id="footer">
+						<div class="inner">
+							<ul class="icons">
+								<li><a href="#" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+								<li><a href="#" class="icon brands alt fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
+							</ul>
+						</div>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

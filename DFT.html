@@ -1,0 +1,215 @@
+<!DOCTYPE HTML>
+<!--
+	Forty by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>George Su: DFT Project</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+
+				<!-- Header -->
+				<header class="subpage_header" style="background-image: url('../../images/DFT/DFT_bg.jpg')">
+					<div class="inner">
+					<h1>Density Functional Theory (DFT) Simulations</h1>
+					<p><span class="w3-tag w3-round w3-red w3-medium">On going</span></p>
+					</div>
+				</header>
+
+
+
+				<!-- Main -->
+						<main class="subpage_main">
+							
+
+
+						<!-- One -->
+							<section id="one">
+								
+
+								<p><strong>A</strong> project under a Fellow of the Royal Society (FRS) with the Imperial Physics department. The aim is to use DFT simulations to investigate the effects of <b>molecular structure</b> on the reorganization energy of organic semi-conductors. The reorganization energy is the energy cost of changing geometry when molecule experience excitation. A lower reorganization energy will increase the efficiency of charge transfer, which is highly desirable in <i>OLED</i> and <i>OPV</i> technologies. </p>
+
+								<table>
+									<tr>
+										<th><b>Overview</b></th>
+									</tr>
+									<tr>
+										<th>
+											<ol>
+												<li><a href="#normal modes">Classification of reorganization energy by normal modes</a></li>
+												<li><a href="#script">Creating automated script</a></li>
+												<li><a href="#database">Creating Database</a></li>
+											</ol>
+										</th>
+									</tr>
+
+								</table>
+							</section>
+
+								
+							</section>
+						
+						<!-- Two -->
+
+							<section id="normal modes" >
+								<section>
+									<div class="content">
+										<div class="inner">
+											<header class="major">
+												<h3>Source classification, and normal modes</h3>
+											</header>
+											<p>
+												The main DFT software leveraged in the project is <i>Gaussian</i>. However significant post-processing is required to obtain the desire information for the project. An adapted version of the <i>Dushin</i> package is used which is able to calculate the reorganization energy split amongst the <b>normal modes</b> of the particle. This allows for us to then identify the common sources of high reorganization energy.
+											 </p>
+										
+										<div class="row">
+										<div class="column one">
+											<img src="images/DFT/reorg-spread.png" alt="" style="width:50%; padding-left: 3em;">
+										</div>
+										</div>
+										<br>
+
+										<p>As shown above, these are split into contributions from low frequency vibrations: <b>Torsion</b> of the molecule, mid frequency vibrations: <b>C=C stretching and breathing</b> and high-frequency vibrations: <b>C-H bond vibrations.</b> </p>
+									</div>
+										
+
+
+									</div>
+									
+								</section>
+							</section>
+
+							<section id="script">
+								<div class="inner">
+									<header class="major">
+										<h3>Automated script and supercomputers</h3>
+									</header>
+									
+									<p><i>One of the main components missing of the group's previous reseach into the area is the lack of a systematic study facilitated by an automated workflow and a rigorous yet accessible database.</i> The first program I developed is a script capable of automating the calculation of reorganization energy spread amongst normal modes, and other important properties of the desired molecule of study. The process is as follows:</p>
+									<ul>
+										<li><i>Input</i>: a list of <b>“SMILES” strings</b>. (A format of representing chemical molecules as strings based on their structure).</li>
+										<div class="row">
+											<div class="column one">
+												<img src="images/DFT/raw_smiles.png" alt="" style="width:60%; padding-left: 3em;">
+											</div>
+										</div>
+										<br>
+										
+										<li>Generating molecules from SMILES strings, containing 3D positions of each atom.</li>
+										<div class="row">
+											<div class="column one">
+												<img src="images/DFT/moles_from_smiles.png" alt="" style="width:60%; padding-left: 3em;">
+											</div>
+										</div>
+										<br>
+
+										<li>Submitting the molecule onto <b>Imperial’s supercomputer</b> to undergo DFT calculations.</li>
+										<div class="row">
+											<div class="column one">
+												<img src="images/DFT/upload_to_HPC.png" alt="" style="width:50%; padding-left: 3em;">
+											</div>
+										</div>
+										<br>
+										<li>Automatically senses when the job has been finished, and stores calculated variables and contextual information regarding the molecule.</li>
+										<li>Then <b>Dushin</b> is ran to calculate the reorganization energy spread amongst normal modes.</li>
+										<div class="row">
+											<div class="column three">
+												<img src="images/DFT/benzene_spread1.jpeg" alt="" style="width:120%; padding-left: 3em;">
+											</div>
+											<div class="column three">
+												<img src="images/DFT/benzene_spread2.jpeg" alt="" style="width:120%; padding-left: 3em;">
+											</div>
+											<div class="column three">
+												<img src="images/DFT/benzene_spread3.jpeg" alt="" style="width:120%; padding-left: 3em;">
+											</div>
+										</div>
+										<br>
+
+										<li>Csv files containing the relevant information is transferred to a <b>local folder</b></li>
+										<div class="row">
+											<div class="column one">
+												<img src="images/DFT/csv_in_folders.png" alt="" style="width:100%; padding-left: 3em;">
+											</div>
+										</div>
+										<br>
+
+									</ul>
+
+
+									<a href="" class="image">
+										<img src="images/DFT/script_flowchart.png" alt="" data-position="center center" />
+									</a>
+									<p class="caption">A rough flow chart of the script made during its conception.</p>
+
+								</div>
+
+							</section>
+
+							<section id="database">
+								<div class="inner">
+									<header class="major">
+										<h3>Database</h3>
+									</header>
+									
+									<p>The next part to develop a tool for systematic study is to make a database with the following requirements:</p>
+
+									<ul>
+										<li><b>Self-generate</b> using local files (Updated when files are updated)</li>
+										<li>Easily accessed and indexed (Cable to quickly return subsections relevant to eg. a specific type of molecules)</li>
+										<li>Ease of visualisation of data</li>
+
+									</ul>
+									<p>Due to these considerations, I decided to use a multi index <b>Pandas</b> to construct the data frame as it can be easily generated from files, is very lightweight, supports conditional indexing and has inbuilt plotting capabilities as well as support for packages such as <i>seaborn</i> for more advanced visualisation. </p>
+								
+									<div class="row">
+										<div class="column one">
+											<img src="images/DFT/database.png" alt="" style="width:100%; padding-left: 3em;">
+										</div>
+									</div>
+
+									<h4>Example: Effects of conjugating Phenyls</h4>
+									<p>The conjugation of Phenyls reduces the effect of C=C bonds breathing and stretching modes (medium frequency) on the reorganization of the molecule. However, it has minimal effect on the low frequency modes. This can be seen easily using the database: </p>
+
+									<div class="row">
+										<div class="column one">
+											<img src="images/DFT/database_demo.png" alt="" style="width:80%; padding-left: 3em;">
+										</div>
+									</div>
+
+
+
+
+
+
+								</div>
+
+							</section>
+
+							<ul class="actions">
+								<li><a href="index.html" class="button back">Return to home</a></li>
+							</ul>
+
+						</main>
+
+
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
