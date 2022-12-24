@@ -20,7 +20,7 @@
 				<!-- Header -->
 				<header class="subpage_header" style="background-image: url('../../images/DFT/DFT_bg.jpg')">
 					<div class="inner">
-					<h1>Density Functional Theory (DFT) Simulations</h1>
+					<h1>Density Functional Theory (DFT) Based High Throughput Screening</h1>
 					<p><span class="w3-tag w3-round w3-red w3-medium">On going</span></p>
 					</div>
 				</header>
@@ -36,17 +36,27 @@
 							<section id="one">
 								
 
-								<p><strong>A</strong> project under a Fellow of the Royal Society (FRS) with the Imperial Physics department. The aim is to use DFT simulations to investigate the effects of <b>molecular structure</b> on the reorganization energy of organic semi-conductors. The reorganization energy is the energy cost of changing geometry when molecule experience excitation. A lower reorganization energy will increase the efficiency of charge transfer, which is highly desirable in <i>OLED</i> and <i>OPV</i> technologies. </p>
+								<p><strong>A</strong> project under a Fellow of the Royal Society (FRS) with the Imperial Solid State Physics department. The aim is to create a <b>High Throughput Screening</b> infrastructure to facilitate the investigation the effects of <b>molecular structure</b> on the reorganization energy of organic semi-conductors. In the project, the infrastructure was used to specifically investigate the reorganization energy associated with PET (Photoinduced Charge Transfer) events. The specific result are private to the group, but the infrastructure design process and features are shared here. 
+									</p>
 
+								<!-- Index -->
 								<table>
 									<tr>
-										<th><b>Overview</b></th>
+										<th><b>Outline</b></th>
 									</tr>
 									<tr>
 										<th>
 											<ol>
-												<li><a href="#normal modes">Classification of reorganization energy by normal modes</a></li>
-												<li><a href="#script">Creating automated script</a></li>
+												<li><a href="#background">Background</a></li>
+												<li><a href="#computational infrastructure">Computational infrastructure</a></li>
+
+												<ul>
+													<li><a href="#vision">Vision</a></li>
+													<li><a href="#machinery">Computational machinery</a></li>
+													<li><a href="#highlights">Features/Flow</a></li>
+
+												</ul>
+
 												<li><a href="#database">Creating Database</a></li>
 											</ol>
 										</th>
@@ -58,27 +68,40 @@
 								
 							</section>
 						
-						<!-- Two -->
-
-							<section id="normal modes" >
+							<section id="background" >
 								<section>
 									<div class="content">
 										<div class="inner">
 											<header class="major">
-												<h3>Source classification, and normal modes</h3>
+												<h3>Background</h3>
 											</header>
 											<p>
-												The main DFT software leveraged in the project is <i>Gaussian</i>. However significant post-processing is required to obtain the desire information for the project. An adapted version of the <i>Dushin</i> package is used which is able to calculate the reorganization energy split amongst the <b>normal modes</b> of the particle. This allows for us to then identify the common sources of high reorganization energy.
+												<b>Reorganization energy</b> or <b>&lambda;</b>is the energy associated with the change in a molecules geometry following a transfer of charge. Such as illustrated in the following charge transfer event between a donor molecule (losing electron) and the acceptor molecule (gaining electron):
 											 </p>
-										
-										<div class="row">
-										<div class="column one">
-											<img src="images/DFT/reorg-spread.png" alt="" style="width:50%; padding-left: 3em;">
-										</div>
-										</div>
-										<br>
 
-										<p>As shown above, these are split into contributions from low frequency vibrations: <b>Torsion</b> of the molecule, mid frequency vibrations: <b>C=C stretching and breathing</b> and high-frequency vibrations: <b>C-H bond vibrations.</b> </p>
+											 <div class="row">
+												<div class="column one">
+													<img src="images/DFT/donor acceptor reorg.png" alt="" style="width:80%; padding-left: 3em;">
+												</div>
+												</div>
+												<br>
+
+											<p>
+												The study of this energy is important as the rate of charge transfer, and hence the rate electrical energy can be harnessed from Photoinduced Electron Transfer (PET) events (relevant in Organic Photovoltaic Cells and photosynthesis) is highly dependent on reorganization energy. Generally, we want to make materials with lower reorganization energy. 
+											</p>
+
+
+										
+
+
+										<div class="row">
+											<div class="column one">
+												<img src="images/DFT/OPV.jpg" alt="" style="width:40%; padding-left: 3em;">
+											</div>
+											</div>
+											<br>
+											<p class="caption">Structure of a typical OPV. Source: https://www.sigmaaldrich.com/GB/en/technical-documents/technical-article/materials-science-and-engineering/photovoltaics-and-solar-cells/opv-tutorial</p>
+
 									</div>
 										
 
@@ -88,70 +111,124 @@
 								</section>
 							</section>
 
-							<section id="script">
-								<div class="inner">
-									<header class="major">
-										<h3>Automated script and supercomputers</h3>
-									</header>
+							<section id="computational infrastructure" >
+								<section>
+									<div class="content">
+										<div class="inner">
+											<header class="major">
+												<h3>Computational infrastructure</h3>
+											</header>
+
+										<h4 id="vision">Vision</h4>
+											<p>The aim to is create a <b>large scale</b>, <b>systematic</b> and <b>intelligent </b> infrastructure for exploring chemical structure space. 
+											We wish to have the ability to efficiency screen large batches of molecules for their reorganization energy and other insightful chemical properties. The data is then interpreted and used to guide the design of new molecular design, which are fed back into screening and the cycle repeats. 
+
+											This format of screening allows us to obtained optimized chemical structures, and allows for the implementation of machine learning for the design of chemical structures. 
+
+											<!--Goal image-->
+											<div class="row">
+												<div class="column one">
+													<img src="images/DFT/computational infrastructure.png" alt="" style="width:60%; padding-left: 3em;">
+												</div>
+												</div>
+											<br>
+
+										<h4 id="machinery">Computational machinery</h4>
+
+											<p>
+												The main DFT software leveraged in the project is <i>Gaussian</i>. However significant post-processing is required to obtain the desire information for the project. An adapted version of the <i>Dushin</i> package is used which is able to calculate the reorganization energy split amongst the <b>normal modes</b> of the particle. This allows for us to then identify the common sources of high reorganization energy. Another crucial post processing software is <i>TheoDORE</i> (Theoretical Density, Orbital Relaxation, and Exciton analysis), which has the ability to perform fragment based analysis of the excited state of a molecule, which helps us classify how separated the charges are in a particular excited state of a molecule.
+											 </p>
+
+											 <!--Computation machinery image-->
+											 <div class="row">
+												<div class="column one">
+													<img src="images/DFT/comp machinery.png" alt="" style="width:95%; padding-left: 3em;">
+												</div>
+												</div>
+											<br>
+											<br>
+
+
+										<h4 id="highlights">Highlighted features</h4>
+										<p>Here is how the structure works overall and some of its features</p>
+										<ul>
+											<li><i>Input</i>: a list of <b>“SMILES” strings</b>. (A format of representing chemical molecules as strings based on their structure).</li>
+											<div class="row">
+												<div class="column one">
+													<img src="images/DFT/raw_smiles.png" alt="" style="width:60%; padding-left: 3em;">
+												</div>
+											</div>
+											<br>
+											
+											<li>Generating molecules from SMILES strings, containing 3D positions of each atom.</li>
+											<div class="row">
+												<div class="column one">
+													<img src="images/DFT/moles_from_smiles.png" alt="" style="width:60%; padding-left: 3em;">
+												</div>
+											</div>
+											<br>
+
+											<li><i>Local optimizations</i> using a forcefield using <i>OpenBabel</i>, ensuring the coordinates of the molecule is valid before feeding into DFT </li>
+											<div class="row">
+												<div class="column one">
+													<img src="images/DFT/optimised coords.png" alt="" style="width:50%; padding-left: 3em;">
+												</div>
+											</div>
+											<br>
+
+											<li>Identifying the donor and acceptor substructures within the molecule using <i>SMARTS</i> (SMILES arbitrary target specification). This step is necessary for the fragment based excited state analysis of TheoDORE</li>
+											<div class="row">
+												<div class="column one">
+													<img src="images/DFT/substructure.png" alt="" style="width:90%; padding-left: 3em;">
+												</div>
+											</div>
+											<br>
+	
+											<li>Automated generation of bash scripts, allocated appropriate memory and time. (Dependent on the size of the molecule and nature of calculation.)</li>
+											<br>
+
+											<li>Automated upload to HPC service</li>
+
+
+											<div class="row">
+												<div class="column one">
+													<img src="images/DFT/upload_to_HPC.png" alt="" style="width:50%; padding-left: 3em;">
+												</div>
+											</div>
+											<br>
+
+
+											<li>Automatically detecting when the job is completed, and running Dushin and TheoDORE as necessary.</li>
+											<br>
+											<div class="row">
+												<div class="column three">
+													<img src="images/DFT/benzene_spread1.jpeg" alt="" style="width:120%; padding-left: 3em;">
+												</div>
+												<div class="column three">
+													<img src="images/DFT/benzene_spread2.jpeg" alt="" style="width:120%; padding-left: 3em;">
+												</div>
+												<div class="column three">
+													<img src="images/DFT/benzene_spread3.jpeg" alt="" style="width:120%; padding-left: 3em;">
+												</div>
+											</div>
+											<p class="caption">Dushin output for Benzene, Naphthalene and Anthracene </p>
+											
+											<br>
+	
+											<li>Csv files containing the relevant information is transferred to a <b>local folder</b> to be cleaned and entered into a <b>systematic database.</b></li>
+											<div class="row">
+												<div class="column one">
+													<img src="images/DFT/csv_in_folders.png" alt="" style="width:100%; padding-left: 3em;">
+												</div>
+											</div>
+											<br>
+	
+										</ul>
+	
+
+									</div>
 									
-									<p><i>One of the main components missing of the group's previous reseach into the area is the lack of a systematic study facilitated by an automated workflow and a rigorous yet accessible database.</i> The first program I developed is a script capable of automating the calculation of reorganization energy spread amongst normal modes, and other important properties of the desired molecule of study. The process is as follows:</p>
-									<ul>
-										<li><i>Input</i>: a list of <b>“SMILES” strings</b>. (A format of representing chemical molecules as strings based on their structure).</li>
-										<div class="row">
-											<div class="column one">
-												<img src="images/DFT/raw_smiles.png" alt="" style="width:60%; padding-left: 3em;">
-											</div>
-										</div>
-										<br>
-										
-										<li>Generating molecules from SMILES strings, containing 3D positions of each atom.</li>
-										<div class="row">
-											<div class="column one">
-												<img src="images/DFT/moles_from_smiles.png" alt="" style="width:60%; padding-left: 3em;">
-											</div>
-										</div>
-										<br>
-
-										<li>Submitting the molecule onto <b>Imperial’s supercomputer</b> to undergo DFT calculations.</li>
-										<div class="row">
-											<div class="column one">
-												<img src="images/DFT/upload_to_HPC.png" alt="" style="width:50%; padding-left: 3em;">
-											</div>
-										</div>
-										<br>
-										<li>Automatically senses when the job has been finished, and stores calculated variables and contextual information regarding the molecule.</li>
-										<li>Then <b>Dushin</b> is ran to calculate the reorganization energy spread amongst normal modes.</li>
-										<div class="row">
-											<div class="column three">
-												<img src="images/DFT/benzene_spread1.jpeg" alt="" style="width:120%; padding-left: 3em;">
-											</div>
-											<div class="column three">
-												<img src="images/DFT/benzene_spread2.jpeg" alt="" style="width:120%; padding-left: 3em;">
-											</div>
-											<div class="column three">
-												<img src="images/DFT/benzene_spread3.jpeg" alt="" style="width:120%; padding-left: 3em;">
-											</div>
-										</div>
-										<br>
-
-										<li>Csv files containing the relevant information is transferred to a <b>local folder</b></li>
-										<div class="row">
-											<div class="column one">
-												<img src="images/DFT/csv_in_folders.png" alt="" style="width:100%; padding-left: 3em;">
-											</div>
-										</div>
-										<br>
-
-									</ul>
-
-
-									<a href="" class="image">
-										<img src="images/DFT/script_flowchart.png" alt="" data-position="center center" />
-									</a>
-									<p class="caption">A rough flow chart of the script made during its conception.</p>
-
-								</div>
-
+								</section>
 							</section>
 
 							<section id="database">
@@ -163,9 +240,10 @@
 									<p>The next part to develop a tool for systematic study is to make a database with the following requirements:</p>
 
 									<ul>
-										<li><b>Self-generate</b> using local files (Updated when files are updated)</li>
+										<li><b>Self-generate</b> using local files (Updated easily when files are updated)</li>
 										<li>Easily accessed and indexed (Cable to quickly return subsections relevant to eg. a specific type of molecules)</li>
-										<li>Ease of visualisation of data</li>
+										<li>Facilitates easy comparison between molecular designs</li>
+										<li>Populated with supplementary chemical property information for supervised 
 
 									</ul>
 									<p>Due to these considerations, I decided to use a multi index <b>Pandas</b> to construct the data frame as it can be easily generated from files, is very lightweight, supports conditional indexing and has inbuilt plotting capabilities as well as support for packages such as <i>seaborn</i> for more advanced visualisation. </p>
@@ -175,6 +253,7 @@
 											<img src="images/DFT/database.png" alt="" style="width:100%; padding-left: 3em;">
 										</div>
 									</div>
+									<br>
 
 									<h4>Example: Effects of conjugating Phenyls</h4>
 									<p>The conjugation of Phenyls reduces the effect of C=C bonds breathing and stretching modes (medium frequency) on the reorganization of the molecule. However, it has minimal effect on the low frequency modes. This can be seen easily using the database: </p>
@@ -182,6 +261,16 @@
 									<div class="row">
 										<div class="column one">
 											<img src="images/DFT/database_demo.png" alt="" style="width:80%; padding-left: 3em;">
+										</div>
+									</div>
+									<br>
+
+									<h4>Example: Comparison between the reorganization energy of a D-A dyad and fragments in isolation.</h4>
+									<p>The database also allows for more in-depth comparisons between specific structures. Here we see the reorganization energy per mode of a donor-acceptor dyad, compared to the sum of the reorganization energy of the donor and acceptor molecules in isolation: </p>
+
+									<div class="row">
+										<div class="column one">
+											<img src="images/DFT/dyad_comparison.png" alt="" style="width:80%; padding-left: 3em;">
 										</div>
 									</div>
 

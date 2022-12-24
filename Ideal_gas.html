@@ -1,0 +1,186 @@
+<!DOCTYPE HTML>
+<!--
+	Forty by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>George Su: Ideal gas simulation </title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+
+				<!-- Header -->
+				<header class="subpage_header" style="background-image: url('../../images/ideal_gas_2.jpg')">
+					<h1>Ideal gas simulation and optimisation</h1>
+					<p><span class="w3-tag w3-round w3-light-green w3-medium">Practice</span></p>
+				</header>
+
+
+
+				<!-- Main -->
+						<main class="subpage_main">
+
+
+						<!-- One -->
+							<section id="one">
+
+								<p><strong>I</strong>deal gas simulated as a collection of small hard spheres undergoing perfectly elastic collisions. Thermodynamic variables are obtained and plotting again energy to test the ideal gas theory in different limits, the histogram of speeds of the particles are also obtained to compare to the expected Maxwell-Boltzmann distribution. Finally the program is also optimised to increase efficiency.
+								</p>
+								</div>
+								<br>
+
+								<table>
+									<tr>
+										<th><b>Overview</b></th>
+									</tr>
+									<tr>
+										<th>
+											<ol>
+												<li><a href="#core">The core simulation</a></li>
+												<li><a href="#results">Thermodynamic variables and comparison with theoretical models</a></li>
+												<li><a href="optimisations">Optimisations for efficiency</a></li>
+		
+											</ol>
+										</th>
+									</tr>
+
+								</table>
+								
+							</section>
+						
+						<!-- Two -->
+
+							<section id="core">
+											<header class="major">
+												<h2>The core simulation</h2>
+											</header>
+												<p>
+												This project is a practice of <i>object-oriented</i> programming with Python for me. The program contained 3 main classes: </p>
+												<ul>
+													<li><b>Ball (A spherical particle)</b></li>
+													<li><b>Container</b></li>
+													<li><b>Simulation</b></li>
+												</ul>
+												<p>And the main functions/operations are:</p>
+												<ul>
+													<li><b>Colliding</b></li>
+													<li><b>Moving</b></li>
+													<li><b>Obtaining time to next collision</b></li>
+												</ul>
+												<p>
+												  The core loop of the simulation is as following: Finding the next collision that occurs in the system, performing the collision between the relevant particles and recording the parameters that have been altered.
+												</p>
+								</section>
+								<section id="results">
+									<header class="major">
+										<h2>Thermodynamic variables and comparison with theory</h2>
+									</header>
+
+									<div class="row">
+										<div class="column two">
+											<img src="images/ideal_gas/KE conservation.png" alt="" style="width:100%; padding-left: 3em;">
+										</div>
+										<div class="column two">
+											<img src="images/ideal_gas/PT.png" alt="" style="width:85%; padding-left: 3em;">
+										</div>
+										</div>
+										<p class="caption">Plots of thermodynamic variables and their variation with time or temperature</p>
+
+										<p>The above plots tests the validity of the model compared to the ideal gas model. As expected, the kinetic energy is conserved in the closed system with time, and the Pressure follows a roughly are linear relationship with temperature as expected. However, we can see that the deviation from the theoretical relationship increases as the particle size becomes non-negligible compared to the container size. This again is expected behaviour.</p>
+
+										<div class="row">
+											<div class="column one">
+												<img src="images/ideal_gas/maxwell_boltzmann.png" alt="" style="width:80%; padding-left: 3em;">
+											</div>
+										</div>
+										<p class="caption">Distribution of particle speeds vs theoretical maxwell-boltzmann distribution for a range of temperatures</p>
+
+										<p>The distribution of particle speeds is also obtained as above, which follows the theoretical Maxwell-Boltzmann distribution of each temperature regime.</p>
+
+								</section>
+
+								<section id="optimisations">
+									<header class="major">
+										<h2>Optimisations</h2>
+									</header>
+									<p>The core simulation mentioned above is then subjected to a range of optimisations. Rather than generating a matrix for all the collisions each time a particle is moved, the collision matrix is instead only created once. The matrix is sorted in terms of ascending order of "time to collision" and the first element is taken as the next collision to perform.</p>
+									<p>
+									Instead of recreation, we update the collision matrix for the 2 particles that have just collided. This modification is done by deleting the old collision information, calculating new time_to_collision between the 2 particles that have their trajectory modified and the other particles in the system. The new information that have been updated is inserted into the collision matrix through term by term comparison, which is more efficient than np.min() or np.sort(), as it takes advantage of the collision matrix being already ordered. 
+									</p>
+									<p>The efficiencies of the methods are compared as following:</p>
+									<div class="row">
+										<div class="column one">
+											<img src="images/ideal_gas/efficiency_table.png" alt="" style="width:80%; padding-left: 3em;">
+										</div>
+									</div>
+									<p class="caption">Efficiency of the optimised simulation vs the unoptimised simulation.</p>
+
+
+
+								</section>
+
+
+
+								
+
+
+
+
+	
+	
+					
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+								
+
+
+
+
+								<ul class="actions">
+									<li><a href="index.html" class="button back">Return to home</a></li>
+								</ul>
+
+
+					
+							</section>
+						</main>
+
+
+				
+
+				<!-- Footer -->
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
