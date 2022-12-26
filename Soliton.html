@@ -1,0 +1,283 @@
+<!DOCTYPE HTML>
+<!--
+	Forty by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>George Su: Soliton Project</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+
+				<!-- Header -->
+				<header class="subpage_header" style="background-image: url('../../images/Soliton/soliton_bg.jpg')">
+					<div class="inner">
+					<h1>Numerical simulation of KdeV and KP soliton dynamics</h1>
+					</div>
+				</header>
+
+
+
+				<!-- Main -->
+						<main class="subpage_main">
+							
+
+
+						<!-- One -->
+							<section id="one">
+								
+
+								<p><strong>C</strong>omputational physics/mathematical project developing a simulation of soliton solutions formed by the KdeV and KP partial differential equations (PDEs). The PDEs are solved using a range of <i>Runge Kutta (RK)</i> methods and a <i>Finite Difference</i> (FD) discretisation scheme. The stability and validity of the simulations were examined by comparing the simulated behavior to expected theoretical behavior. 
+									</p>
+
+								<!-- Index -->
+								<table>
+									<tr>
+										<th><b>Outline</b></th>
+									</tr>
+									<tr>
+										<th>
+											<ol>
+												<li><a href="#background">Background</a></li>
+												<li><a href="#computational infrastructure">Computational infrastructure</a></li>
+
+												<ul>
+													<li><a href="#vision">Vision</a></li>
+													<li><a href="#machinery">Computational machinery</a></li>
+													<li><a href="#highlights">Features/Flow</a></li>
+
+												</ul>
+
+												<li><a href="#database">Creating Database</a></li>
+											</ol>
+										</th>
+									</tr>
+
+								</table>
+							</section>
+
+								
+							</section>
+						
+							<section id="background" >
+								<section>
+									<div class="content">
+										<div class="inner">
+											<header class="major">
+												<h3>Background</h3>
+											</header>
+											<p>
+												The <b>Kortewag-deVries (KdeV)</b> equations
+											 </p>
+
+											 <div class="row">
+												<div class="column one">
+													<img src="images/Soliton/kdev.png" alt="" style="width:30%; padding-left: 3em;">
+												</div>
+											</div>
+
+											<p>
+												and its two dimensional analog, the KadomtsevPetviashvili (KP) equation:
+											</p>
+
+											
+											<div class="row">
+												<div class="column one">
+													<img src="images/Soliton/kp.png" alt="" style="width:40%; padding-left: 3em;">
+												</div>
+											</div>
+
+											<p>
+												are two non-linear partial differential equations (PDE) which have been of particular interest in physical research due to the unique properties of their analytical solutions. The solutions resemble <i>solitary waves</i>, and are able to preserves their shape asymptotically during propagation. For these properties, they have been given the name <i>"solitons"</i>. Solitons also have the unusual property of <b>preserving their shape and velocity during collisions</b>. Solitons have become crucial in the modelling of phenomena involving non-linearity and dispersion, which are prominent in the areas such as <b>plasma physics</b> and <b>hydrodynamics</b>.
+											</p>
+
+
+
+									</div>
+									
+								</section>
+							</section>
+
+							<section id="theory" >
+								<section>
+									<div class="content">
+										<div class="inner">
+											<header class="major">
+												<h3>Quick theory</h3>
+											</header>
+											
+											<h4>KdeV equation</h4>
+
+											<p>
+												The KdeV equation is able to exhibit soliton solutions due to the fine balance between the <i>non-linear second term </i> and the <i>dispersive third term</i>. The non-linear term leads to a dependence of the wave speed on its amplitude, which results in the steepening of the wave in the direction of propagation as the peak catches up with the trough. 
+
+												The interplay of non-linearity and dispersion also leads to the nuanced characteristics of soliton collision. Solitons are able to preserve their shape and velocity during a collision as they simply transfer their amplitude and hence velocity to one another, without actually superposing. 
+
+												A corollary of this property is the <b>conservation of the area (integral) of soliton solutions</b>. In actuality, it is proven that the KdeV equation has <b>infinitely many conserved integrals of motion (IoM)</b>, which serves as a useful benchmark for checking the stability of numerical simulations.
+
+												Only specific initial conditions will behave as a soliton, and propagate stably for all time. Other initial conditions will result in the phenomena of <i>wave breaking</i>, where the initial condition breaks down into multiple solitons of lower amplitudes. 
+
+											</p>
+
+											<h4>KP equation</h4>
+
+											<p>
+												The KP equation like its one-dimensional counterpart, describes wave-like propagation in the $x$ direction, but now with the additional effect of dispersion along the $y$ direction. The KP equation possesses two types of normal modes - <i>line solitons</i>, which resembles the one-dimensional KdeV soliton extended across a linear direction in two-dimensional space. and <i>lumps</i>, which as the name suggests, resembles a peak that decays to zero in all spatial directions. Less are understood about lumps, but they are expected to also propagate as solitary waves. 
+											</p>
+
+											<div class="row">
+												<div class="column one">
+													<img src="images/Soliton/initial conditions.png" alt="" style="width:70%; padding-left: 3em;">
+												</div>
+											</div>
+
+											<p class="caption">The soliton initial conditions for the KdeV and KP equations. A) KdeV Single Soliton, B) KP Line Soliton, C) KP Lump</p>
+
+									</div>
+									
+								</section>
+							</section>
+
+
+							<section id="simulation methods" >
+								<section>
+									<div class="content">
+										<div class="inner">
+											<header class="major">
+												<h3>Simulation methods</h3>
+											</header>
+
+											<p>
+												The numerical methods chosen were the RK2, 3, 4 and RKF45 methods. Analytical stability analysis is performed for the methods and the stability regions are as following:
+											</p>
+
+											<div class="row">
+												<div class="column two">
+													<img src="images/Soliton/stability region method.png" alt="" style="width:70%">
+												</div>
+												<div class="column two">
+												  <img src="images/Soliton/full stability region.png" alt="" style="width:70%">
+												</div>
+											</div>
+											<br>
+
+											<p class="caption">A) From in to out: The stability region on the imaginary plane for RK1-4 methods. B) The spatial step <i>h</i> and time step <i>&Delta;t</i> requirements for stability for RK3 and 4.</p>
+
+											<p>The stability analysis was performed using the matrix method. Since the maximum eigenvalue of the Kdev and KP equations line on the imaginary axis, we see that RK1 and 2 methods are unstable for all conditions. Higher order RK methods are stable if the time step and spatial step of discretisation fulfills certain conditions, and the conditions are more relaxed for higher order methods. </p>
+
+
+									</div>
+									
+								</section>
+							</section>
+
+							<section id="results" >
+								<section>
+									<div class="content">
+										<div class="inner">
+											<header class="major">
+												<h3>Results</h3>
+											</header>
+
+											<p>
+												The simulated results for different phenomena:
+											</p>
+
+											<h4>Single Soliton Propagation</h4>
+
+											<div class="row"> 
+												<div class="column two">
+													<img src="images/Soliton/Single Soliton.gif" alt="" style="width:70%">
+												</div>
+												<div class="column two">
+												  <img src="images/Soliton/2D_45_line_test.gif" alt="" style="width:85%">
+												</div>
+											</div>
+
+
+											<h4>Soliton collision</h4>
+
+											<div class="row">
+												<div class="column one">
+													<img src="images/Soliton/Soliton Collision.gif" alt="" style="width:70%; padding-left: 3em;">
+												</div>
+											</div>
+
+											By examining the integrals of motion during collision, we are also able to test the accuracy and stability of our simulations compared to our analytical stability expectations. 
+
+											<div class="row">
+												<div class="column one">
+													<img src="images/Soliton/Collision info.png" alt="" style="width:70%; padding-left: 3em;">
+												</div>
+											</div>
+
+											<p>The simulation of collision above is ran with a combination of <i>h</i> and <i>&Delta;t</i> that is within the stability region of RK4 but not RK3. We see that as expected, the RK4 method is stable for the entire time period, while the RK3 method eventually becomes unstable. We also see that before the collision and before instability, the fluctuation in the integrals of motion of all 3 order is extremely small.</p>
+
+											<div class="row">
+												<div class="column one">
+													<img src="images/Soliton/frac error table.png" alt="" style="width:70%; padding-left: 3em;">
+												</div>
+											</div>
+
+											<p class="caption">Fractional deviation in the Integrals of Motion before the collision</p>
+
+											<p>During the collision, the first order integral of motion remains very constant, while the deviation grows for higher orders, but even for the third order, the deviation still remains below 0.01%.</p>
+
+											<h4>Wave breaking (non solition initial condition)</h4>
+
+											<div class="row">
+												<div class="column one">
+													<img src="images/Soliton/wavebrekaing small sin small amp.gif" alt="" style="width:70%; padding-left: 3em;">
+												</div>
+											</div>
+
+											<p> The above animation shows the response of the simulation
+												to a positive sine wave initial condition. When
+												starting in a non-normal mode, both the effects
+												of non-linear steepening and dispersion no longer
+												perfectly counteracts one another. In subsequent
+												time slices, we see the the sine wave steepen in the
+												direction of propagation, while also spreading out
+												due to dispersion. Ultimately the two effects balance
+												each other and the initial profile breaks down into
+												multiple stable soliton solutions.</p>
+
+
+
+
+
+									</div>
+									
+								</section>
+							</section>
+
+
+
+
+							<ul class="actions">
+								<li><a href="index.html" class="button back">Return to home</a></li>
+							</ul>
+
+						</main>
+
+
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
